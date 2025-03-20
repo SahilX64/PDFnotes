@@ -16,9 +16,14 @@ function App() {
           function: () => {
             text = window.getSelection().toString();
             if(text.length > 0){
-              chrome.storage.local.set({selectedText : text}, () => {
+              chrome.storage.local.get(["selectedText"]).then((result) => {
+                let paragraphs = result.selectedText || [];
+                paragraphs = [...paragraphs, text];
+              
+              chrome.storage.local.set({selectedText : paragraphs}, () => {
                 console.log("Text stored locally");
               });
+            });
             }
             else {alert("please select the text")}
           }
@@ -33,20 +38,24 @@ function App() {
     chrome.storage.local.get(["selectedText"]).then((result) => {
     var pdfText = result.selectedText;
     var doc = new jsPDF('p', 'in', 'a4');
-    var textLines = doc.splitTextToSize(pdfText, 7.25);
     const lineHeight = 0.25;
     let verticalOffset = 0.5;
-    
+    pdfText.forEach((paragraph) => {
+    var textLines = doc.splitTextToSize(paragraph, 7.25);
+    doc.text('\u2022', 0.35, verticalOffset);
     textLines.forEach((line) => {
       if(verticalOffset + lineHeight > 11.25){
         doc.addPage();
         verticalOffset = 0.5;
       }
+      
       doc.text(line, 0.5, verticalOffset);
       verticalOffset += lineHeight;
     });
+  });
     doc.save('a4.pdf');
     });
+    chrome.storage.local.clear();
   }
 
 
