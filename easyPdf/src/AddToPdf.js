@@ -14,6 +14,7 @@ export function AddToPdf(){
                   
                   chrome.storage.local.set({selectedText : paragraphs}, () => {
                     console.log("Text stored locally");
+                    alert("Text Stored Locally")
                   });
                 });
                 }
