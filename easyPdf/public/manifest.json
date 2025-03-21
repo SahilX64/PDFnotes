@@ -10,11 +10,24 @@
     "permissions" : [
         "scripting",
         "activeTab",
-        "storage"
+        "storage",
+        "commands"
     ],
+    "background" : {
+        "service_worker" : "background.js",
+        "type" : "module"
+    },
     "host_permissions" : [
         "http://*/*",
         "https://*/*"
-    ]
-   
+    ],
+    "commands" : {
+        "trigger_action" : {
+            "suggested_key" : {
+                "default": "Ctrl+Shift+S",
+                "mac" : "Command+Shift+S"
+            },
+            "description" : "Trigger the action"
+        }
+    }
 }
