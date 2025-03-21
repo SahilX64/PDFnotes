@@ -17,6 +17,7 @@ export function GeneratePdf(){
           doc.text(line, 0.5, verticalOffset);
           verticalOffset += lineHeight;
         });
+        verticalOffset += 0.25;
       });
         doc.save('a4.pdf');
         });
