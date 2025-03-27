@@ -13,12 +13,17 @@ export function AddToPdf(){
                     paragraphs = [...paragraphs, text];
                   
                   chrome.storage.local.set({selectedText : paragraphs}, () => {
-                    console.log("Text stored locally");
-                    alert("Text Stored Locally")
+                    if (chrome.runtime.lastError) {
+                      console.error("Error setting storage:", chrome.runtime.lastError);
+                      return;
+                  }
+                  chrome.runtime.sendMessage({ type: "notify" });
                   });
                 });
                 }
-                else {alert("please select the text")}
+                else {
+                  alert("please select the text");
+                }
               }
             });
           } else {

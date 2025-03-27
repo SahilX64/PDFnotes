@@ -1,0 +1,33 @@
+
+chrome.runtime.onMessage.addListener((message) => {
+    console.log(message);
+    if (message.type === "notify") {
+        showNotification("Text Added to the PDF");
+    }
+  });
+
+function showNotification(text) {
+    // Remove existing notification if any
+    let existingNotif = document.getElementById("extension-notif");
+    if (existingNotif) {existingNotif.remove();}
+
+    // Create notification element
+    let notif = document.createElement("div");
+    notif.id = "extension-notif";
+    notif.innerText = text;
+    notif.style.position = "fixed";
+    notif.style.bottom = "20px";
+    notif.style.right = "20px";
+    notif.style.background = "#333";
+    notif.style.color = "#fff";
+    notif.style.padding = "10px 15px";
+    notif.style.borderRadius = "5px";
+    notif.style.boxShadow = "0 2px 10px rgba(0,0,0,0.3)";
+    notif.style.zIndex = "10000";
+    notif.style.fontFamily = "Arial, sans-serif";
+
+    document.body.appendChild(notif);
+
+    // Remove notification after 3 seconds
+    setTimeout(() => notif.remove(), 3000);
+}

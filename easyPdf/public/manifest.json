@@ -11,8 +11,10 @@
         "scripting",
         "activeTab",
         "storage",
-        "commands"
+        "commands",
+        "notifications"
     ],
+   
     "background" : {
         "service_worker" : "background.js",
         "type" : "module"
@@ -29,5 +31,17 @@
             },
             "description" : "Trigger the action"
         }
+    },
+    "icons": {
+        "16": "assets/icon16.png",
+        "32": "assets/icon32.png",
+        "48": "assets/icon48.png",
+        "128": "assets/icon128.png"
+      },
+      "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"]
     }
+  ]
 }
