@@ -17,7 +17,13 @@ export function AddToPdf(){
                       console.error("Error setting storage:", chrome.runtime.lastError);
                       return;
                   }
-                  chrome.runtime.sendMessage({ type: "notify" });
+                  chrome.runtime.sendMessage( { type: "notify" }, (response) =>{
+                    if(chrome.runtime.lastError){
+                      console.log("Error sending message to content script:", chrome.runtime.lastError)
+                      return;
+                    }
+                    console.log("Message sent successfully", response);
+                  });
                   });
                 });
                 }

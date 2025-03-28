@@ -19,38 +19,35 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log("📩 Background received message:", message);
+  console.log("Background received message:", message);
 
   if (message.type === "notify") {
-      // Send message to content script
+      // Query the active tab
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-          if (tabs.length === 0) return;
-
+          if (tabs.length === 0) {
+              sendResponse({ status: "No active tab found" });
+              return;
+          }
+          // Send message to content script
           chrome.tabs.sendMessage(tabs[0].id, { type: "notify" }, (response) => {
-              console.log("📤 Sent message to content script", response);
+              if (chrome.runtime.lastError) {
+                  console.error("Error sending message to content script:", chrome.runtime.lastError);
+                  sendResponse({ status: "Failed to send message to content script" });
+                  return;
+              }
+
+              console.log("Sent message to content script", response);
+              sendResponse({ status: "Message successfully sent to content script", response });
           });
       });
+
+      return true; // Ensures sendResponse is handled asynchronously
   }
 
-  sendResponse({ status: "Message handled in background" });
-  return true; // Ensures the response is handled asynchronously
+  sendResponse({ status: "Message type not recognized" });
+  return true;
 });
 
 
 
 
-// chrome.runtime.onMessage.addListener((message) => {
-//   if (message.action === "notify") {
-//       chrome.notifications.create("notifId",{
-//           type: "basic",
-//           iconUrl: "./assets/icon32.png",
-//           title: "Storage Updated",
-//           message: "Your data has been saved!"
-//       },
-//       (notifId) => {
-//         setTimeout(() => {
-//             chrome.notifications.clear(notifId);
-//         }, 3000); // Clears after 5 seconds
-//     });
-//   }
-// });

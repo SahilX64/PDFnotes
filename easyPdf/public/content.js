@@ -1,10 +1,18 @@
 
-chrome.runtime.onMessage.addListener((message) => {
-    console.log(message);
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("Content script received message:", message);
+
     if (message.type === "notify") {
-        showNotification("Text Added to the PDF");
+        // Perform any action required in the content script
+       showNotification("Text is added to the PDF.")
+
+        // Optionally send a response back to the background script
+        sendResponse({ status: "Notification processed successfully in content script" });
     }
-  });
+
+    return true; // Ensure asynchronous response handling if needed
+});
+
 
 function showNotification(text) {
     // Remove existing notification if any
