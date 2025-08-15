@@ -1,6 +1,6 @@
 {
     "manifest_version" : 3,
-    "name" : "easyPDF",
+    "name" : "PDFnotes",
     "description" : "Converts the selected text of the webpage into a pdf.",
     "version" : "1.0",
 
@@ -33,10 +33,10 @@
         }
     },
     "icons": {
-        "16": "assets/icon16.png",
-        "32": "assets/icon32.png",
-        "48": "assets/icon48.png",
-        "128": "assets/icon128.png"
+        "16": "assets/PDFnotesLogo16.png",
+        "32": "assets/PDFnotesLogo(32).png",
+        "48": "assets/PDFnotesLogo48.png",
+        "128": "assets/PDFnotesLogo128.png"
       },
       "content_scripts": [
     {
